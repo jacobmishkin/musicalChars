@@ -18,11 +18,14 @@
 
 ### Build:
 
-- Working dir is `assets/js/dev/`
+- `js` working dir is `assets/js/dev/`. Compiles to minified version in `assets/js`.
+- `scss` working dir is `assets/scss/`. Compiles to minified version in `assets/css`.
 - js dependencies dir is `assets/js/vendor/`
 - commonꜷ utility/tools dir is `assets/js/utility/`
 
-- `gulp|gulp js|gulp styles`
+- `gulp` for everything, or `gulp js|gulp styles`
+- `eslintrc` is not enforced
+- `babelrc` forthcoming probably (feel free to add one :). `eslint` and I are in a fight
 
 ### Usage:
 
