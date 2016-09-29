@@ -2,9 +2,7 @@
 
 ----
 
-🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵
-🎵 Generate music from the rss or atom feed of a public code repository. 🎵
-🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵
+🎵 Generate music from the rss or atom feed of a public code repository.
 
 ----
 
