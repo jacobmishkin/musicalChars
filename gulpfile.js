@@ -185,6 +185,6 @@ gulp.task( 'watch', function() {
 /**
  * Create individual tasks.
  */
-gulp.task( 'scripts', [ 'uglify' ] );
+gulp.task( 'js', [ 'uglify' ] );
 gulp.task( 'styles', [ 'cssnano' ] );
-gulp.task( 'default', [ 'styles', 'scripts' ] );
+gulp.task( 'default', [ 'styles', 'js' ] );
