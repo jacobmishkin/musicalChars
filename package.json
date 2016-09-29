@@ -3,7 +3,7 @@
   "author": "common-gold",
   "version": "1.0.0",
   "description": "A common gold project.",
-  "license": "MIT",
+  "license": "GPL",
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
