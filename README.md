@@ -6,17 +6,17 @@
 
 ----
 
-Current status:
+### Current status:
 
 - Pending first push of functional stuff; almost done. Some time today (Thurs).
 
 ----
 
-Installation:
+### Installation:
 
 - `npm i`
 
-Build:
+### Build:
 
 - Working dir is `assets/js/dev/`
 - js dependencies dir is `assets/js/vendor/`
@@ -24,7 +24,7 @@ Build:
 
 - `gulp|gulp js|gulp styles`
 
-Usage:
+### Usage:
 
 - Soon! We're not done quite yet.
 
