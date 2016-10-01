@@ -6,7 +6,7 @@
 var commonAU = {
   debugger: function( errorMessage ) {
     errorMessage = '';
-    return 'cAU: ' + '\n' + errorMessage;
+    return 'Common Gold: ' + '\n' + errorMessage;
     debugger;
   },
   debug: false
@@ -21,12 +21,12 @@ var commonAU = {
  *
  * @return {[console.error object]} [Error object and error message string]
  */
-console.commonAU = function() {
+console.au = function() {
 
   Array.prototype.unshift.call(
 
     arguments,
     commonAU.debugger() );
 
-  console.error.apply( console, arguments );
+  console.log.apply( console, arguments );
 };

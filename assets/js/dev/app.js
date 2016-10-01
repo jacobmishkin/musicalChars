@@ -30,15 +30,21 @@ jQuery( document ).ready( function( $ ) {
 		url: 'https://api.github.com/repos/' + userOrOrgExample + '/' + repoNameExample + '/commits?callback=repo',
 		dataType: 'jsonp',
 		success: function( repo ) {
-			console.log( repo );
-			var text = '';
+			// console.log( repo.data );
+			console.au( 'Business time.' );
+			console.table( repo.data );
+
 			var len = repo.length;
 			for ( var i = 0; i < len; i++ ) {
 
-				text += '<p>' + title + '</p>'
+				// '<p>' + title + '</p>'
 			}
-			$( '.output' ).html( text );
+			$( '.output' ).html( 'wefrwefwf' );
 
+
+			function repoKey() {
+				return 'temp repoKey';
+			}
 
 			/**
 			 * Parse jsonp and calcuate various arbitrary musical properties, and assign them to the repoMusic object.
@@ -46,7 +52,10 @@ jQuery( document ).ready( function( $ ) {
 			 * @todo
 			 */
 
-			var repoMusic = {}
+			var repoMusic = {
+				duration: repo.length,
+				key: repoKey(),
+			}
 
 
 			/**
