@@ -21,12 +21,19 @@ var commonAU = {
  *
  * @return {[console.error object]} [Error object and error message string]
  */
-console.au = function() {
 
-  Array.prototype.unshift.call(
 
-    arguments,
-    commonAU.debugger() );
+var auConsoleStyles = [
+    'background: linear-gradient(gold, goldenrod)'
+    , 'border: 6px solid gold'
+    , 'color: black'
+    , 'display: block'
+    , 'line-height: 24px'
+    , 'text-align: left'
+    , 'margin: 4px'
+    , 'font-weight: bold'
+].join( ';' );
 
-  console.log.apply( console, arguments );
+console.au = function( message ) {
+  console.log( '%c' + ' * Common.au: ' + message, auConsoleStyles + ' *' );
 };

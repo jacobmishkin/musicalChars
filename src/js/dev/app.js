@@ -85,11 +85,14 @@ jQuery( document ).ready( function( $ ) {
 		dataType: 'jsonp',
 		success: function( repo ) {
 
-				if ( undefined === repo.data || repo.message.indexOf( 'API rate limit exceeded' ) >= 0 ) {
-					// Should we add in auth? This is going to get really annoying...
-					console.au( 'Aw shit, you hit the Github aunauthenticated API usage rate limit. It should reset in a few minutes.' );
+				if ( !repo.data ) {
 					return;
 				}
+			// if ( undefined === repo.data || repo.message.indexOf( 'API rate limit exceeded' ) >= 0 ) {
+			// 	// Should we add in auth? This is going to get really annoying...
+			// 	console.au( 'Aw shit, you hit the Github aunauthenticated API usage rate limit. It should reset in a few minutes.' );
+			// 	return;
+			// }
 
 				console.au( 'Business time.' );
 				console.table( repo.data );
