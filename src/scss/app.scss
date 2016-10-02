@@ -1,0 +1,60 @@
+// normalize here plz
+
+@import "_normalize.scss";
+@import "_variables.scss";
+
+body {
+	background: #111;
+	color: #ffffff;
+	font-size: 16px;
+	font-family: monospace;
+}
+
+main {
+	background: transparent;
+}
+
+header h1 {
+	padding:  0;
+	margin:  0;
+}
+
+.in {
+	width:  200px;
+	text-align: center;
+	margin: 0 auto;
+	display:  inline-block;
+	padding: 2em;
+	font-size: 22px;
+	background:  rgba(0, 0, 0, 0.1);
+}
+
+.in input,
+.in button {
+	font-size: 20px;
+	/* clear:  both; */
+	display: block;
+	margin:  .5em auto;
+	padding:  4px;
+
+}
+
+.out {
+	text-align: center;
+	padding:  2em;
+}
+
+button {
+	-webkit-appearance:  none;
+	appearance:  none;
+	border: 0;
+	color: #111111;
+	background:  #efefef;
+	cursor: pointer;
+	outline: 0;
+}
+
+
+.emoji {
+	font-family: inherit;
+}
