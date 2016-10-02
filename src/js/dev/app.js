@@ -78,15 +78,22 @@ jQuery( document ).ready( function( $ ) {
 	 */
 	var userOrOrgExample = 'common-gold';
 	var repoNameExample = 'musicalChars';
-	console.log( 'https://api.github.com/repos/' + userOrOrgExample + '/' + repoNameExample + '/commits?callback=repo' );
+	var repoURL = 'https://api.github.com/repos/' + userOrOrgExample + '/' + repoNameExample + '/commits?callback=repo';
+
 	$.ajax( {
-		url: 'https://api.github.com/repos/' + userOrOrgExample + '/' + repoNameExample + '/commits?callback=repo',
+		url: repoURL,
 		dataType: 'jsonp',
 		success: function( repo ) {
-				// console.log( repo.data );
+
+				if ( repo.message.indexOf( 'API rate limit exceeded' ) >= 0 ) {
+					// Should we add in auth? This is going to get really annoying...
+					console.au( 'Aw shit, you hit the Github aunauthenticated API usage rate limit. It should reset in a few minutes.' );
+					return;
+				}
+
 				console.au( 'Business time.' );
 				console.table( repo.data );
-
+				console.au( repo.data[ 0 ].commit.message );
 				var len = repo.length;
 				for ( var i = 0; i < len; i++ ) {
 
@@ -129,7 +136,9 @@ jQuery( document ).ready( function( $ ) {
 							default:
 								//
 						}
-
+					},
+					hasSpeech: function() {
+						return ( 'speechSynthesis' in window ) ? true : false;
 					},
 					hasDrums: true,
 					hasMarimba: true,
@@ -138,6 +147,28 @@ jQuery( document ).ready( function( $ ) {
 					hasPiano: true,
 					hasSquare: true,
 					hasSawtooth: true,
+					lyrics: {
+						verse1: function() {
+
+							if ( !musicalChars.hasSpeech() ) {
+								return false;
+								console.error( 'no speech' );
+							}
+
+							if ( repo.data[ 0 ].commit.message ) {
+								return repo.data[ 0 ].commit.message;
+							} else {
+								return false;
+								console.error( 'no commit message!' );
+							}
+						}
+					},
+					vocals: {
+						// Plan is to try to match the relative pitch to the key the music is in.
+						pitch: .3,
+						// Adjust rate based on the bpm value of the song.
+						rate: 1
+					},
 					notes: {
 						drums: function() {
 
@@ -167,10 +198,70 @@ jQuery( document ).ready( function( $ ) {
 
 							return [];
 						}
+					},
+					init: function() {
+
+						/**
+						 * Start up speech synthesis engine.
+						 *
+						 * @type {[type]}
+						 */
+						var voices = speechSynthesis.getVoices();
+
+						// Loop through each of the voices.
+						voices.forEach( function( voice, i ) {
+
+							// console.au( voice );
+
+							var voiceName = voice.name;
+
+							// Add the option to the voice selector.
+							// voiceSelect.appendChild( option );
+						} );
 					}
 
 				}
 
+				musicalChars.init();
+
+				// Chrome loads voices asynchronously.
+				window.speechSynthesis.onvoiceschanged = function( e ) {
+					musicalChars.init();
+				};
+
+
+				// Create a new utterance for the specified text and add it to
+				// the queue.
+				function speak( text ) {
+					// Create a new instance of SpeechSynthesisUtterance.
+					var msg = new SpeechSynthesisUtterance();
+
+					// Set the verse.
+					msg.text = musicalChars.vocals.verse1;
+
+					// Set the attributes.
+					msg.volume = parseFloat( 9 );
+					msg.rate = parseFloat( musicalChars.vocals.rate );
+					msg.pitch = parseFloat( musicalChars.vocals.pitch );
+
+					// If a voice has been selected, find the voice and set the
+					// utterance instance's voice attribute.
+					// if ( voiceSelect.value ) {
+					// 	verse.voice = speechSynthesis.getVoices().filter( function( voice ) {
+					// 		return voice.name == voiceSelect.value;
+					// 	} )[ 0 ];
+					// }
+
+					// Queue this utterance.
+					window.speechSynthesis.speak( msg );
+				}
+
+				/**
+				 * Vocals
+				 *
+				 * Just the example is presently defined.
+				 */
+				speak( musicalChars.lyrics.verse1() );
 
 				/**
 				 * Music
