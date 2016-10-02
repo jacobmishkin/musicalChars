@@ -12,6 +12,7 @@ var uglify = require( 'gulp-uglify' );
 var rename = require( 'gulp-rename' );
 var sourcemaps = require( 'gulp-sourcemaps' );
 var connect = require( 'gulp-connect' );
+var exec = require( 'child_process' ).exec;
 var browserify = require( 'browserify' );
 var watchify = require( 'watchify' );
 var babelify = require( 'babelify' );
@@ -107,6 +108,16 @@ gulp.task( 'connect', function() {
 gulp.task( 'js', [ 'uglify' ] );
 gulp.task( 'styles', [ 'sass', 'cssmin' ] );
 
+
+
+gulp.task( 'say', function( cb ) {
+	exec( 'say -v "Zarvox" -r 300 "The Common Gold project build has been successfully completed"', function( err, stdout, stderr ) {
+		console.log( stdout );
+		console.log( stderr );
+		cb( err );
+	} );
+} )
+
 gulp.task( 'watch', function() {
 	gulp.watch( './src/scss/*.scss', [ 'styles' ] );
 	gulp.watch( './src/js/dev/*.js', [ 'js' ] );
@@ -116,4 +127,4 @@ gulp.task( 'watch', function() {
 	gulp.watch( './*.html', [ 'html' ] );
 } );
 
-gulp.task( 'default', [ 'styles', 'js', 'connect', 'watch' ] );
+gulp.task( 'default', [ 'styles', 'js', 'connect', 'say', 'watch' ] );
