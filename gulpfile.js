@@ -21,8 +21,8 @@ var source = require( 'vinyl-source-stream' );
 var paths = {
 	css: [ './src/css/*.css', '!*.min.css' ],
 	sass: [ './src/scss/*.scss' ],
-	vendor: [ './src/js/vendor/*.js', './src/js/utility/*.js' ],
-	dev: [ './src/js/dev/*.js', '!src/js/*.min.js' ]
+	vendor: [ './src/js/vendor/*.js' ],
+	dev: [ './src/js/dev/*.js', './src/js/utility/*.js' ]
 };
 
 /**
@@ -64,7 +64,7 @@ gulp.task( 'concatVendor', function() {
 			errorHandler: handleErrors
 		} ) )
 		.pipe( sourcemaps.init() )
-		.pipe( concat( 'app.js' ) )
+		.pipe( concat( 'vendor.js' ) )
 		.pipe( sourcemaps.write() )
 		.pipe( gulp.dest( 'build' ) )
 } );
@@ -81,7 +81,7 @@ gulp.task( 'concatDev', function() {
 } );
 
 gulp.task( 'uglify', [ 'concatVendor', 'concatDev' ], function() {
-	return gulp.src( './build/app.js' )
+	return gulp.src( [ './build/vendor.js', './build/app.js' ] )
 		.pipe( rename( {
 			suffix: '.min'
 		} ) )
