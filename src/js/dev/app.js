@@ -88,26 +88,17 @@ jQuery( document ).ready( function( $ ) {
 				if ( !repo.data ) {
 					return;
 				}
-			// if ( undefined === repo.data || repo.message.indexOf( 'API rate limit exceeded' ) >= 0 ) {
-			// 	// Should we add in auth? This is going to get really annoying...
-			// 	console.au( 'Aw shit, you hit the Github aunauthenticated API usage rate limit. It should reset in a few minutes.' );
-			// 	return;
-			// }
 
-				console.au( 'Business time.' );
+				// if ( undefined === repo.data || repo.message.indexOf( 'API rate limit exceeded' ) >= 0 ) {
+				// 	// Should we add in auth? This is going to get really annoying...
+				// 	console.au( 'Aw shit, you hit the Github aunauthenticated API usage rate limit. It should reset in a few minutes.' );
+				// 	return;
+				// }
+
+				console.au( 'Repository data:' );
 				console.table( repo.data );
-				console.au( repo.data[ 0 ].commit.message );
+
 				var len = repo.length;
-				for ( var i = 0; i < len; i++ ) {
-
-					// '<p>' + repo.data[0].commit.message + '</p>'
-				}
-				$( '.out' ).html( 'wefrwefwf' );
-
-
-				function repoKey() {
-					return 'temp repoKey';
-				}
 
 				/**
 				 * Parse jsonp and calcuate various arbitrary musical properties, and assign them to the repoMusic object.
@@ -121,24 +112,77 @@ jQuery( document ).ready( function( $ ) {
 						return calcBPM;
 					},
 					timeSignature: function() {
+						// @todo - calculate time signature based on # of commits + contributors?
 						if ( repo.data.commit.message.length > 5 ) {
 							return [ 4, 4 ];
 						} else if ( repo.data.commit.length > 50 ) {
 							return [ 3, 4 ];
 						}
 					},
-					duration: repo.length,
+					duration: repo.length * 100,
 					key: function() {
-						switch ( repo.data.commit.message ) {
-							case n:
-								//
+
+						// Song is in the key of C by default
+						var setKey = 'c';
+
+						console.au( repo.data[ 0 ].commit.message.substr( 0, 1 ) );
+
+						switch ( repo.data[ 0 ].commit.message.substr( 0, 1 ) ) {
+							case 'a':
+								return 'a';
 								break;
-							case n:
-								//
+
+							case 'b':
+								return 'b';
 								break;
+
+							case 'c':
+								return 'c';
+								break;
+
+							case 'd':
+								return 'd';
+								break;
+
+							case 'e':
+								return 'e';
+								break;
+
+							case 'f':
+								return 'f';
+								break;
+
+							case 'g':
+								return 'g';
+								break;
+
+							case 'u':
+								console.au( 'it is U' );
+								break;
+
 							default:
-								//
+								setKey = 'c';
 						}
+
+						return setKey;
+					},
+					isMinor: function() {
+						// How should a major or minor key be determined?
+						// Perhaps searching for certain keywords, eg
+						// a high istance of profanity in commit messages would be a minor key...
+						//
+						// @todo
+						return false;
+					},
+					majorMinor: function() {
+						if ( musicalChars.isMinor ) {
+							return 'minor';
+						} else {
+							return 'major';
+						}
+
+						// happy by default :-)
+						return 'major';
 					},
 					hasSpeech: function() {
 						return ( 'speechSynthesis' in window ) ? true : false;
@@ -151,6 +195,11 @@ jQuery( document ).ready( function( $ ) {
 					hasSquare: true,
 					hasSawtooth: true,
 					lyrics: {
+						verses: {
+							// verses will be dynamically created via a loop I guess?
+							'temp': 'not',
+							'done': 'yet'
+						},
 						verse1: function() {
 
 							if ( !musicalChars.hasSpeech() ) {
@@ -162,15 +211,15 @@ jQuery( document ).ready( function( $ ) {
 								return repo.data[ 0 ].commit.message;
 							} else {
 								return false;
-								console.error( 'no commit message!' );
+								console.error( 'No commit messages were found.' );
 							}
 						}
 					},
 					vocals: {
 						// Plan is to try to match the relative pitch to the key the music is in.
-						pitch: .3,
+						pitch: .6,
 						// Adjust rate based on the bpm value of the song.
-						rate: 1
+						rate: .5
 					},
 					notes: {
 						drums: function() {
@@ -202,7 +251,17 @@ jQuery( document ).ready( function( $ ) {
 							return [];
 						}
 					},
+					ui: {
+						button: function( buttonText, buttonClass ) {
+							// @todo define append behavior conditions via switch or something
+							return '<button class="' + buttonClass + '">' + buttonText + '<button>';
+						}
+					},
+					render: function() {
+						$( '.out h2' ).html( repoNameExample + ' in ' + musicalChars.key() + ' ' + musicalChars.majorMinor() );
+					},
 					init: function() {
+						musicalChars.render();
 
 						/**
 						 * Start up speech synthesis engine.
@@ -214,12 +273,8 @@ jQuery( document ).ready( function( $ ) {
 						// Loop through each of the voices.
 						voices.forEach( function( voice, i ) {
 
-							// console.au( voice );
-
 							var voiceName = voice.name;
 
-							// Add the option to the voice selector.
-							// voiceSelect.appendChild( option );
 						} );
 					}
 
@@ -240,7 +295,7 @@ jQuery( document ).ready( function( $ ) {
 					var msg = new SpeechSynthesisUtterance();
 
 					// Set the verse.
-					msg.text = musicalChars.vocals.verse1;
+					msg.text = musicalChars.lyrics.verse1();
 
 					// Set the attributes.
 					msg.volume = parseFloat( 9 );

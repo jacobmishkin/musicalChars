@@ -109,7 +109,6 @@ gulp.task( 'js', [ 'uglify' ] );
 gulp.task( 'styles', [ 'sass', 'cssmin' ] );
 
 
-
 gulp.task( 'say', function( cb ) {
 	exec( 'say -v "Zarvox" -r 300 "The Common Gold project build has been successfully completed"', function( err, stdout, stderr ) {
 		console.log( stdout );

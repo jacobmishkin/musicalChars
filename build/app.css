@@ -1,3 +1,4 @@
+@charset "UTF-8";
 progress, sub, sup {
   vertical-align: baseline; }
 
@@ -193,6 +194,24 @@ header {
 
 hr {
   opacity: .5; }
+
+hr.note {
+  border-top: 1px solid #8c8b8b;
+  text-align: center; }
+
+hr.note:after {
+  content: '♬';
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  padding: 3px 6px;
+  color: white;
+  background: darkblue;
+  border-radius: 50%;
+  font-size: 18px;
+  -webkit-transform: rotate(10deg);
+  -moz-transform: rotate(10deg);
+  transform: rotate(10deg); }
 
 .in {
   width: 12em;
