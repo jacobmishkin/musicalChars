@@ -240,7 +240,7 @@ jQuery( document ).ready( function( $ ) {
 						return false;
 					},
 					majorMinor: function() {
-						if ( musicalChars.isMinor ) {
+						if ( true === musicalChars.isMinor ) {
 							return 'minor';
 						} else {
 							return 'major';
@@ -323,7 +323,7 @@ jQuery( document ).ready( function( $ ) {
 						}
 					},
 					render: function() {
-						$( '.out h2' ).html( repoNameExample + ' in ' + musicalChars.key() + ' ' + musicalChars.majorMinor() );
+						$( '.out h2' ).html( '<span class="title">' + repoNameExample + '</span> <span class="key-subtitle">in <span class="key">' + musicalChars.key() + '</span> ' + musicalChars.majorMinor() + '</span>' );
 					},
 					init: function() {
 						musicalChars.render();

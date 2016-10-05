@@ -223,4 +223,12 @@ hr.note:after {
 
 .out {
   text-align: center;
-  padding: 2em; }
+  padding: 1rem 0; }
+  .out h2 {
+    font-weight: 200;
+    font-size: 2rem; }
+    .out h2 .key-subtitle {
+      font-size: 1.5rem;
+      font-style: italic; }
+    .out h2 .key {
+      text-transform: uppercase; }
