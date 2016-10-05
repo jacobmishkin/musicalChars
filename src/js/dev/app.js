@@ -3,7 +3,7 @@ jQuery( document ).ready( function( $ ) {
 	'use strict'
 
 	/**
-	 * Color changers
+	 * Color changers.
 	 */
 
 	var bgcolors = [
@@ -41,6 +41,87 @@ jQuery( document ).ready( function( $ ) {
 		var el_yellow = $( '.yellowBox' );
 		el_yellow.css( 'background-color', yellows[ Math.floor( ( Math.random() * 8 ) + 1 ) ] );
 	}
+
+	/**
+	 * Renders the initial, sine wave visualization.
+	 *
+	 * Defined early so it can be manipulated by Tone.js later.
+	 */
+
+	/*
+	 * Uses sine-waves lib
+	 */
+
+	var waves = new SineWaves( {
+		el: document.querySelector( '.waves' ),
+
+		speed: 4,
+
+		width: function() {
+			return $( window ).width();
+		},
+
+		height: function() {
+			return $( window ).height();
+		},
+
+		ease: 'SineInOut',
+
+		wavesWidth: '70%',
+
+		waves: [
+			{
+				timeModifier: 4,
+				lineWidth: 1,
+				amplitude: -25,
+				wavelength: 25
+    },
+			{
+				timeModifier: 2,
+				lineWidth: 2,
+				amplitude: -50,
+				wavelength: 50
+    },
+			{
+				timeModifier: 1,
+				lineWidth: 1,
+				amplitude: -100,
+				wavelength: 100
+    },
+			{
+				timeModifier: 0.5,
+				lineWidth: 1,
+				amplitude: -200,
+				wavelength: 200
+    },
+			{
+				timeModifier: 0.25,
+				lineWidth: 2,
+				amplitude: -400,
+				wavelength: 400
+    }
+  ],
+
+		// Called on window resize
+		resizeEvent: function() {
+			var gradient = this.ctx.createLinearGradient( 0, 0, this.width, 0 );
+			gradient.addColorStop( 0, "rgba(23, 210, 168, 0.2)" );
+			gradient.addColorStop( 0.5, "rgba(255, 255, 255, 0.5)" );
+			gradient.addColorStop( 1, "rgba(23, 210, 168, 0.2)" );
+
+			var index = -1;
+			var length = this.waves.length;
+			while ( ++index < length ) {
+				this.waves[ index ].strokeStyle = gradient;
+			}
+
+			// Clean Up
+			index = void 0;
+			length = void 0;
+			gradient = void 0;
+		}
+	} );
+
 
 	/**
 	 * Get user input
@@ -123,48 +204,32 @@ jQuery( document ).ready( function( $ ) {
 					key: function() {
 
 						// Song is in the key of C by default
-						var setKey = 'c';
+						var defaultKey = 'c';
 
-						console.au( repo.data[ 0 ].commit.message.substr( 0, 1 ) );
+						// Get the first character of the first commit from the jsonp
+						var char = repo.data[ 0 ].commit.message.substr( 0, 1 );
 
-						switch ( repo.data[ 0 ].commit.message.substr( 0, 1 ) ) {
-							case 'a':
-								return 'a';
-								break;
+						if ( char == 'a' || char == 'A' || char == '1' ) {
+							return 'a';
+						} else if ( char == 'b' || char == 'B' || char == '2' ) {
+							return 'b';
+						} else if ( char == 'c' || char == 'C' || char == '3' ) {
+							return 'c';
+						} else if ( char == 'd' || char == 'D' || char == '4' ) {
+							return 'd';
+						} else if ( char == 'e' || char == 'E' || char == '5' ) {
+							return 'e';
+						} else if ( char == 'f' || char == 'F' || char == '6' ) {
+							return 'f';
+						} else if ( char == 'g' || char == 'G' || char == '7' ) {
+							return 'a';
+						} else {
 
-							case 'b':
-								return 'b';
-								break;
+							// @todo: some arbitrary assignment on these remaining character possibles.
+							var plebs = [ 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '8', '9', '0' ];
 
-							case 'c':
-								return 'c';
-								break;
-
-							case 'd':
-								return 'd';
-								break;
-
-							case 'e':
-								return 'e';
-								break;
-
-							case 'f':
-								return 'f';
-								break;
-
-							case 'g':
-								return 'g';
-								break;
-
-							case 'u':
-								console.au( 'it is U' );
-								break;
-
-							default:
-								setKey = 'c';
+							return defaultKey;
 						}
-
-						return setKey;
 					},
 					isMinor: function() {
 						// How should a major or minor key be determined?
