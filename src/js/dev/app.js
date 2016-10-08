@@ -103,6 +103,7 @@ jQuery( document ).ready( function( $ ) {
   ],
 
 		// Called on window resize
+		// @todo We should check if this needs to be debounced
 		resizeEvent: function() {
 			var gradient = this.ctx.createLinearGradient( 0, 0, this.width, 0 );
 			gradient.addColorStop( 0, "rgba(23, 210, 168, 0.2)" );
@@ -144,7 +145,7 @@ jQuery( document ).ready( function( $ ) {
 		var repoName = $( 'input.repo-name' ).val();
 
 		event.preventDefault();
-		console.table( userOrOrg, repoName );
+		// console.table( userOrOrg, repoName );
 
 	} );
 
@@ -176,8 +177,8 @@ jQuery( document ).ready( function( $ ) {
 				// 	return;
 				// }
 
-				console.au( 'Repository data:' );
-				console.table( repo.data );
+				// console.au( 'Repository data:' );
+				// console.table( repo.data );
 
 				var len = repo.length;
 
@@ -293,7 +294,32 @@ jQuery( document ).ready( function( $ ) {
 						},
 						marimba: function() {
 
-							return [];
+							// Notes can be one of 24 tonally-unique keys:
+							// C; Db(/C#); D; Eb(/D#); E; F; F#/Gb; G; Ab(/G#); A; Bb(/A#); B
+
+							var marimbaNotes = [];
+
+							$.each( repo.data, function() {
+
+								// Get the commit sha hash for each commit, parse it as base 16, and round it to the nearest int.
+								var marimbaNote = Math.round( parseInt( this.commit.tree.sha, 10 ) );
+								marimbaNote = Math.round( marimbaNote );
+
+								// If the value returned is NaN, return zero.
+								//
+								// Zero could be interpreted as a rest/silence.
+								if ( isNaN( marimbaNote ) ) {
+									marimbaNote = 0;
+								}
+
+								marimbaNotes.push( marimbaNote );
+
+							} );
+
+							console.au( 'The notes for this repo are:' );
+							console.table( marimbaNotes );
+
+							return marimbaNotes;
 						},
 						bass: function() {
 
@@ -341,6 +367,8 @@ jQuery( document ).ready( function( $ ) {
 							var voiceName = voice.name;
 
 						} );
+
+						musicalChars.notes.marimba();
 					}
 
 				}
